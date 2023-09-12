@@ -41,6 +41,11 @@ export function ecdsaAuthParse(authResult) {
     return {signature, recid, publicKey};
 }
 
+/**
+ * @param {object|string} data
+ * @param {string} authString
+ * @return {string|false}
+ */
 export function ecdsaAuthVerify(data, authString) {
     const {signature, recid, publicKey} = ecdsaAuthParse(authString);
     const dataHash = hashData(data);
