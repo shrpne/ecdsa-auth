@@ -14,7 +14,7 @@ const {ecdsaSign, ecdsaVerify, publicKeyCreate} = secp256k1;
  */
 export function ecdsaAuthSign(data, privateKey, includePublicKey = true) {
     const privateKeyBuffer = toBuffer(privateKey);
-    const dataHash = typeof data === 'string' ? keccakFromString(data) : hashObject(data);
+    const dataHash = hashData(data);
     // recid is 0-3 number @see https://ethereum.stackexchange.com/a/118342
     const {signature, recid} = ecdsaSign(dataHash, privateKeyBuffer);
 
@@ -43,7 +43,7 @@ export function ecdsaAuthParse(authResult) {
 
 export function ecdsaAuthVerify(data, authString) {
     const {signature, recid, publicKey} = ecdsaAuthParse(authString);
-    const dataHash = hashObject(data);
+    const dataHash = hashData(data);
     const isValid = ecdsaVerify(signature, dataHash, publicKey);
     if (isValid) {
         return bufferToString(publicToAddress(publicKey, true));
@@ -72,11 +72,12 @@ function concatTypedList(list) {
 
 
 /**
- * @param {object} data
+ * @param {object|string} data
  * @return {Buffer}
  */
-export function hashObject(data) {
-    return keccakFromString(JSON.stringify(data));
+export function hashData(data) {
+    data = typeof data === 'string' ? data : JSON.stringify(data)
+    return keccakFromString(data);
 }
 
 /**

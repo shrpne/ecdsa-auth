@@ -2,7 +2,7 @@ import secp256k1 from 'secp256k1';
 import {toBuffer} from 'ethereumjs-util/dist/bytes.js';
 import {keccakFromString} from 'ethereumjs-util/dist/hash.js';
 import {publicToAddress} from 'ethereumjs-util/dist/account.js';
-import {ecdsaAuthSign, ecdsaAuthParse, ecdsaAuthVerify, hashObject, bufferToString} from '../src/index.js';
+import {ecdsaAuthSign, ecdsaAuthParse, ecdsaAuthVerify, hashData as hashObject, bufferToString} from '../src/index.js';
 
 const {ecdsaRecover, ecdsaVerify, publicKeyCreate} = secp256k1;
 
